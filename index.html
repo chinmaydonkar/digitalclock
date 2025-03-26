@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Digital Clock</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                background: linear-gradient(135deg, #2c3e50, #3498db);
+                font-family: 'Orbitron', sans-serif;
+                color: white;
+            }
+
+            .container {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .digital-clock {
+                text-align: center;
+            }
+
+            .time {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 4rem;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .hour, .minutes, .seconds {
+                background: rgba(0, 0, 0, 0.3);
+                padding: 10px 15px;
+                border-radius: 10px;
+                margin: 0 10px;
+            }
+
+            .dots {
+                font-size: 3rem;
+                margin: 0 10px;
+            }
+
+            .right-side {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-left: 15px;
+            }
+
+            .period {
+                font-size: 1rem;
+                text-transform: uppercase;
+                color: #e0e0e0;
+            }
+
+            .calendar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2rem;
+                opacity: 0.8;
+            }
+
+            .calendar > div {
+                margin: 0 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="digital-clock">
+                <div class="time">
+                    <div class="hour">00</div>
+                    <div class="dots">:</div>
+                    <div class="minutes">00</div>
+                    <div class="right-side">
+                        <div class="period">AM</div>
+                        <div class="seconds">00</div>
+                    </div>
+                </div>
+                <div class="calendar">
+                    <div class="day-name">Monday</div>
+                    <div class="month-name">March</div>
+                    <div class="day-number">25</div>
+                    <div class="year">2025</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function updateClock() {
+                const now = new Date();
+                const hour = document.querySelector('.hour');
+                const minutes = document.querySelector('.minutes');
+                const seconds = document.querySelector('.seconds');
+                const period = document.querySelector('.period');
+                const dayName = document.querySelector('.day-name');
+                const monthName = document.querySelector('.month-name');
+                const dayNumber = document.querySelector('.day-number');
+                const year = document.querySelector('.year');
+
+                let h = now.getHours();
+                const m = now.getMinutes().toString().padStart(2, '0');
+                const s = now.getSeconds().toString().padStart(2, '0');
+                const currentPeriod = h >= 12 ? 'PM' : 'AM';
+
+                h = h % 12;
+                h = h ? h : 12; // handle midnight (0 hours)
+                h = h.toString().padStart(2, '0');
+
+                hour.textContent = h;
+                minutes.textContent = m;
+                seconds.textContent = s;
+                period.textContent = currentPeriod;
+
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+                dayName.textContent = days[now.getDay()];
+                monthName.textContent = months[now.getMonth()];
+                dayNumber.textContent = now.getDate();
+                year.textContent = now.getFullYear();
+            }
+
+            // Update clock immediately and then every second
+            updateClock();
+            setInterval(updateClock, 1000);
+        </script>
+    </body>
+</html>
